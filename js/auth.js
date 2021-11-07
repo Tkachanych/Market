@@ -42,7 +42,7 @@ logInForm.addEventListener('submit', (event) => {
     password: inputPassword.value
   }
 
-  if (user.login == '') {
+  if (user.login.trim() == '') {
     alert('Вы не ввели логин!');
     return;
   }
