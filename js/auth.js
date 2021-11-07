@@ -47,7 +47,6 @@ logInForm.addEventListener('submit', (event) => {
     return;
   }
 
-
   localStorage.setItem('user', JSON.stringify(user))
   login(user);
 
