@@ -1,15 +1,16 @@
-const cardsRestaurants = document.querySelector('.cards-restaurants');
+const partners = () => {
+  const cardsRestaurants = document.querySelector('.cards-restaurants');
 
-const renderItems = (data) => {
-  data.forEach((item) => {
-    const a = document.createElement('a');
-    const { image, kitchen, name, price, products, stars, time_of_delivery } = item
-    a.setAttribute('href', '/restaurant.html');
-    a.classList.add('card');
-    a.classList.add('card-restaurant');
-    a.dataset.products = products;
+  const renderItems = (data) => {
+    data.forEach((item) => {
+      const a = document.createElement('a');
+      const { image, kitchen, name, price, products, stars, time_of_delivery } = item
+      a.setAttribute('href', '/restaurant.html');
+      a.classList.add('card');
+      a.classList.add('card-restaurant');
+      a.dataset.products = products;
 
-    a.innerHTML = `
+      a.innerHTML = `
       <img src="${image}" alt="${name}" class="card-image" />
       <div class="card-text">
         <div class="card-heading">
@@ -26,27 +27,30 @@ const renderItems = (data) => {
       </div>
     `
 
-    a.addEventListener('click', (e) => {
-      e.preventDefault()
-      if (localStorage.getItem('user')) {
-        localStorage.setItem('restaurant', JSON.stringify(item))
-        window.location.href = '/restaurant.html'
-      } else {
-        modalAuth.style.display = 'flex'
-      }
+      a.addEventListener('click', (e) => {
+        e.preventDefault()
+        if (localStorage.getItem('user')) {
+          localStorage.setItem('restaurant', JSON.stringify(item))
+          window.location.href = '/restaurant.html'
+        } else {
+          modalAuth.style.display = 'flex'
+        }
+      })
+
+      cardsRestaurants.append(a)
+
+    });
+
+  }
+
+  fetch('https://test-7dd5c-default-rtdb.europe-west1.firebasedatabase.app/db/partners.json')
+    .then((response) => response.json())
+    .then((data) => {
+      renderItems(data);
     })
+    .catch((error) => {
+      console.log(error)
+    })
+};
 
-    cardsRestaurants.append(a)
-
-  });
-
-}
-
-fetch('https://test-7dd5c-default-rtdb.europe-west1.firebasedatabase.app/db/partners.json')
-  .then((response) => response.json())
-  .then((data) => {
-    renderItems(data);
-  })
-  .catch((error) => {
-    console.log(error)
-  })
+partners();
